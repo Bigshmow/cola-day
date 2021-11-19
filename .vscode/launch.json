@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch backend",
+      "program": "${workspaceFolder}/backend/build/server.js",
+      "outputCapture": "std",
+      "envFile": "${workspaceFolder}/backend/.env",
+      "preLaunchTask": "build-w",
+      "runtimeVersion": "12.19.1"
+    }
+  ]
+}
