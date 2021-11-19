@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.19.2",
+    "bcrypt": "^5.0.0",
+    "body-parse": "^0.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "graphql": "^15.5.0",
+    "graphql-tools": "^7.0.2",
+    "graphql-type-json": "^0.3.2",
+    "http-proxy": "^1.18.1",
+    "jwks-rsa": "^1.12.2",
+    "mongoose": "^5.11.15",
+    "node-fetch": "^2.6.1",
+    "nodemailer": "^6.6.3",
+    "superstatic": "^7.1.0",
+    "winston": "^3.3.3",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.1",
+    "@types/graphql": "^14.5.0",
+    "@types/node": "15.6",
+    "typescript": "^4.1.3"
+  }
+}
