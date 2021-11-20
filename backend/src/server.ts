@@ -4,10 +4,13 @@ import { join } from "path";
 import app from "./core/app";
 
 import superstatic = require("superstatic");
+import mountApolloServer from "./graphql/graphql";
 
 (async function boot() {
   const server = createServer(app);
   app.get("/__health", (req, res) => res.json({ ok: true }));
+
+  await mountApolloServer(app);
 
   const publicPath = join(process.cwd(), "public");
 
