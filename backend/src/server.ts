@@ -4,11 +4,26 @@ import { join } from "path";
 import app from "./core/app";
 
 import superstatic = require("superstatic");
+import template from "lodash/template";
+
 import mountApolloServer from "./graphql/graphql";
+import { connect } from "mongoose";
 
 (async function boot() {
   const server = createServer(app);
   app.get("/__health", (req, res) => res.json({ ok: true }));
+
+  // Database connection
+  const mongoUri = template(
+    process.env.MONGODB_URI ?? "mongodb://localhost:27017/coladay"
+  );
+  await connect(mongoUri({ env: process.env }), {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  });
+  console.log("Connected to database");
 
   await mountApolloServer(app);
 
