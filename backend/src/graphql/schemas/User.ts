@@ -11,6 +11,10 @@ const typeDefs = gql`
     getUserById(userId: ID): User
   }
 
+  type Mutation {
+    createDevin(): User
+  }
+
   type User {
     _id: ID
     email: String
@@ -26,11 +30,20 @@ const resolvers = {
 
   Query: {
     async getUserById(obj, args, info) {
-      return User.findById(args.userId);
+      return await User.findById(args.userId);
     },
   },
-  // Mutation: {
-  // },
+  Mutation: {
+    async createDevin(obj, args, info) {
+      return await User.create({
+        firstName: "devin",
+        lastName: "stewart",
+        email: "dstewart88@gmail.com",
+        password: "password",
+        organization: "coke",
+      });
+    },
+  },
 };
 
 const UserSchema = makeExecutableSchema({
