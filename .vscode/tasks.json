@@ -10,7 +10,7 @@
       },
       "label": "build",
       "type": "typescript",
-      "tsconfig": "tsconfig.json",
+      "tsconfig": "frontend/tsconfig.json",
       "problemMatcher": ["$tsc"]
     },
     {
