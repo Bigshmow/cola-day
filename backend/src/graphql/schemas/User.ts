@@ -40,7 +40,7 @@ const resolvers = {
         lastName: "stewart",
         email: "dstewart88@gmail.com",
         password: "password",
-        organization: "coke",
+        organization: "619a84d60b5332d8e58b90a6",
       });
     },
   },
