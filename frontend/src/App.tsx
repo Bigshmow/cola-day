@@ -8,7 +8,7 @@ import {
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./graphql/index";
 import { NoMatch } from "./views/NoMatch";
-import { Login } from "./views/Login";
+import { LoginView } from "./views/Login";
 import { Reservation } from "./views/Reservation";
 
 function Routing() {
@@ -20,7 +20,7 @@ function Routing() {
       {isLoggedIn ? (
         <Router>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<LoginView />} />
             <Route path="reservations" element={<Reservation />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
@@ -28,7 +28,7 @@ function Routing() {
       ) : (
         <Router>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<LoginView />} />
             <Route>
               <Route element={<NoMatch />} />
               <Navigate to="/" />
