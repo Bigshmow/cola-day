@@ -6,7 +6,7 @@ const Schema = new _Schema(
     lastName: { type: String },
     email: { type: String, index: { unique: true } },
     password: { type: String },
-    organization: { type: String },
+    organization: { type: _Schema.Types.ObjectId, ref: "Organization" },
   },
   {
     timestamps: true,

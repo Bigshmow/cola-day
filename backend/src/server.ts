@@ -13,7 +13,6 @@ import { connect } from "mongoose";
   const server = createServer(app);
   app.get("/__health", (req, res) => res.json({ ok: true }));
 
-  // Database connection
   const mongoUri = template(
     process.env.MONGODB_URI ?? "mongodb://localhost:27017/coladay"
   );
@@ -24,7 +23,6 @@ import { connect } from "mongoose";
     useFindAndModify: false,
   });
   console.log("Connected to database");
-
   await mountApolloServer(app);
 
   const publicPath = join(process.cwd(), "public");
