@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-function App() {
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./graphql/index";
+import { NoMatch } from "./views/NoMatch";
+import { Login } from "./views/Login";
+import { Reservation } from "./views/Reservation";
+
+function Routing() {
+  //TODO: wire up login to simple redux
+  const isLoggedIn = true;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {isLoggedIn ? (
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="reservations" element={<Reservation />} />
+            <Route path="*" element={<NoMatch />} />
+          </Routes>
+        </Router>
+      ) : (
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route>
+              <Route element={<NoMatch />} />
+              <Navigate to="/" />
+            </Route>
+          </Routes>
+        </Router>
+      )}
+    </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <ApolloProvider client={client}>
+      <Routing />
+    </ApolloProvider>
+  );
+}
