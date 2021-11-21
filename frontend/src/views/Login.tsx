@@ -1,28 +1,61 @@
 import { useForm } from "react-hook-form";
 
+type FormData = {
+  email: string;
+  password: string;
+};
+
 export const Login = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  } = useForm<FormData>();
 
-  console.log(watch("example")); // watch input value by passing the name of it
+  // TODO dispatch login to redux
+  const onSubmit = handleSubmit((data) => console.log(data));
 
   return (
-    <div className="d-flex justify-content-center align-items-center p-3">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* register your input into the hook by invoking the "register" function */}
-        <input defaultValue="test" {...register("example")} />
-
-        {/* include validation with required or other standard HTML validation rules */}
-        <input {...register("exampleRequired", { required: true })} />
-        {/* errors will return when field validation fails  */}
-        {errors.exampleRequired && <span>This field is required</span>}
-
-        <button className="btn btn-primary" type="submit" />
+    <div className="d-flex flex-column align-items-center p-3">
+      <div className="p-5">
+        <h1>Welcome to Cola Day</h1>
+      </div>
+      <form onSubmit={onSubmit}>
+        <div className="d-flex flex-column card">
+          <div className="card-body d-flex flex-column align-items-center">
+            <div className="form-group mb-3 w-100 d-flex flex-row justify-content-between align-items-center">
+              <label htmlFor="email">Email</label>
+              <input
+                {...register("email", { required: true })}
+                name="email"
+                type="email"
+                id="email"
+                className="form-control w-75 ms-auto"
+                placeholder="name@address.com"
+              />
+              {errors.email && <span>This field is required</span>}
+            </div>
+            <div className="form-group mb-3 w-100 d-flex flex-row align-items-center">
+              <label htmlFor="email">Password</label>
+              <input
+                {...register("password", { required: true, minLength: 8 })}
+                name="password"
+                type="password"
+                id="password"
+                className="form-control w-75 ms-auto"
+                placeholder="********"
+              />
+              {errors.password?.type === "minLength" ? (
+                <span>Password min length 8</span>
+              ) : (
+                errors.password && <span>This field is required</span>
+              )}
+            </div>
+            <button className="btn btn-primary" type="submit">
+              Sign in
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   );
