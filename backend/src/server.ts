@@ -2,6 +2,9 @@ import { createServer } from "http";
 import { join } from "path";
 
 import app from "./core/app";
+import cors from "cors";
+import { Auth } from "./api/auth";
+import { jwtSessionMiddleware } from "./middlewares/jwt";
 
 import superstatic = require("superstatic");
 import template from "lodash/template";
@@ -11,7 +14,6 @@ import { connect } from "mongoose";
 
 (async function boot() {
   const server = createServer(app);
-  app.get("/__health", (req, res) => res.json({ ok: true }));
 
   const mongoUri = template(
     process.env.MONGODB_URI ?? "mongodb://localhost:27017/coladay"
@@ -23,6 +25,11 @@ import { connect } from "mongoose";
     useFindAndModify: false,
   });
   console.log("Connected to database");
+
+  app.get("/__health", (req, res) => res.json({ ok: true }));
+  app.use("/api", cors({ origin: true }), jwtSessionMiddleware); // Parse token and attach session if exists
+  app.use("/api/auth", Auth);
+
   await mountApolloServer(app);
 
   const publicPath = join(process.cwd(), "public");
