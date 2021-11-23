@@ -16,7 +16,7 @@ export const Header = () => {
   );
 
   return (
-    <nav className="navbar navbar-light bg-light">
+    <nav className="navbar">
       <div className="container d-flex align-items-center">
         <a className="navbar-brand" href="/">
           <img src="/apple-touch-icon.png" alt="logo" width="50" height="50" />

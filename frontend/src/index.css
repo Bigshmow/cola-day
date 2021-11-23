@@ -21,3 +21,9 @@ footer p {
 .dropdown-item {
   cursor: pointer;
 }
+.navbar {
+  border-bottom: solid #209cee 3px;
+}
+.navbar a {
+  color: black;
+}
