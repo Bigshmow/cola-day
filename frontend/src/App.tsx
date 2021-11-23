@@ -36,10 +36,7 @@ function Routing() {
         <Router>
           <Routes>
             <Route path="/" element={<LoginView />} />
-            <Route>
-              <Route element={<NoMatch />} />
-              <Navigate to="/" />
-            </Route>
+            <Route path="*" element={<RedirectHome />} />
           </Routes>
         </Router>
       )}
