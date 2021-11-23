@@ -6,6 +6,20 @@ type FormData = {
 };
 
 export const LoginForm = () => {
+  const { error: loginError, loading } = useSelector((state: any) => {
+    return {
+      loading: state.user.userLoginLoading,
+      error: state.user.userLoginError,
+    };
+  });
+
+  const dispatch = useDispatch();
+
+  const loginUserDispatch = useCallback(
+    (props) => dispatch(loginUser(props)),
+    [dispatch]
+  );
+
   const {
     register,
     handleSubmit,
