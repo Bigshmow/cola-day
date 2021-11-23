@@ -24,7 +24,7 @@ function RedirectHome() {
 }
 
 function RedirectReservations() {
-  return <Navigate to="/reservations" replace />;
+  return <Navigate to="/dashboard" replace />;
 }
 
 function Routing() {
@@ -34,7 +34,7 @@ function Routing() {
       {isLoggedIn ? (
         <Router>
           <Routes>
-            <Route path="/reservations" element={<Dashboard />}>
+            <Route path="/dashboard" element={<Dashboard />}>
               <Route path="" element={<Reservation />} />
               <Route path="test" element={<Testing />} />
               <Route path="*" element={<NoMatch />} />
