@@ -7,9 +7,19 @@ import {
 
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./graphql/index";
+
+import { LoadSession } from "./controllers/Loader";
+import { Provider, useSelector } from "react-redux";
+import store from "./store";
+
+import { LoginView } from "./views/Login";
 import { NoMatch } from "./views/NoMatch";
 import { LoginView } from "./views/Login";
 import { Reservation } from "./views/Reservation";
+
+function RedirectHome() {
+  return <Navigate to="/" replace />;
+}
 
 function Routing() {
   //TODO: wire up login to simple redux
