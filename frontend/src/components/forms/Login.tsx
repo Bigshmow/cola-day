@@ -23,7 +23,7 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: formErrors },
   } = useForm<FormData>();
 
   // TODO dispatch login to redux
