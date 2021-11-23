@@ -14,10 +14,15 @@ import store from "./store";
 
 import { LoginView } from "./views/Login";
 import { NoMatch } from "./views/NoMatch";
-import { Reservation } from "./views/Reservation";
+import { LoginLayout } from "./layout/Login";
+import { Dashboard } from "./layout/Dashboard";
 
 function RedirectHome() {
-  return <Navigate to="/" replace />;
+  return <Navigate to="/login" replace />;
+}
+
+function RedirectReservations() {
+  return <Navigate to="/reservations" replace />;
 }
 
 function Routing() {
@@ -27,14 +32,19 @@ function Routing() {
       {isLoggedIn ? (
         <Router>
           <Routes>
-            <Route path="/" element={<Reservation />} />
-            <Route path="*" element={<NoMatch />} />
+            <Route path="/reservations">
+              <Route path="/reservations" element={<Dashboard />} />
+              <Route path="*" element={<NoMatch />} />
+            </Route>
+            <Route path="*" element={<RedirectReservations />} />
           </Routes>
         </Router>
       ) : (
         <Router>
           <Routes>
-            <Route path="/" element={<LoginView />} />
+            <Route path="/login" element={<LoginLayout />}>
+              <Route path="*" element={<LoginView />} />
+            </Route>
             <Route path="*" element={<RedirectHome />} />
           </Routes>
         </Router>
