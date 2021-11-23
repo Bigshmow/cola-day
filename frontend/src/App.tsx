@@ -16,6 +16,8 @@ import { LoginView } from "./views/Login";
 import { NoMatch } from "./views/NoMatch";
 import { LoginLayout } from "./layout/Login";
 import { Dashboard } from "./layout/Dashboard";
+import { Testing } from "./views/Testing";
+import { Reservation } from "./views/Reservation";
 
 function RedirectHome() {
   return <Navigate to="/login" replace />;
@@ -32,8 +34,9 @@ function Routing() {
       {isLoggedIn ? (
         <Router>
           <Routes>
-            <Route path="/reservations">
-              <Route path="/reservations" element={<Dashboard />} />
+            <Route path="/reservations" element={<Dashboard />}>
+              <Route path="" element={<Reservation />} />
+              <Route path="test" element={<Testing />} />
               <Route path="*" element={<NoMatch />} />
             </Route>
             <Route path="*" element={<RedirectReservations />} />
