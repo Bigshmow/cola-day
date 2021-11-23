@@ -6,6 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
+import init from "./core/token";
+
+init();
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
