@@ -28,8 +28,7 @@ function Routing() {
       {isLoggedIn ? (
         <Router>
           <Routes>
-            <Route path="/" element={<LoginView />} />
-            <Route path="reservations" element={<Reservation />} />
+            <Route path="/" element={<Reservation />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
         </Router>
