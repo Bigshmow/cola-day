@@ -25,7 +25,7 @@ export const Header = () => {
         <div className="ms-auto d-flex justify-content-between">
           <div className="dropdown">
             <button
-              className="btn btn-secondary dropdown-toggle"
+              className="btn dropdown-toggle"
               type="button"
               id="dropdownMenuButton1"
               data-bs-toggle="dropdown"
