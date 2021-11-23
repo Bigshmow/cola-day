@@ -47,7 +47,7 @@ export const LoginForm = () => {
               className="form-control w-75 ms-auto"
               placeholder="name@address.com"
             />
-            {errors.email && <span>This field is required</span>}
+            {formErrors.email && <span>This field is required</span>}
           </div>
           <div className="form-group mb-3 w-100 d-flex flex-row align-items-center">
             <label htmlFor="email">Password</label>
@@ -59,10 +59,10 @@ export const LoginForm = () => {
               className="form-control w-75 ms-auto"
               placeholder="********"
             />
-            {errors.password?.type === "minLength" ? (
+            {formErrors.password?.type === "minLength" ? (
               <span>Password min length 8</span>
             ) : (
-              errors.password && <span>This field is required</span>
+              formErrors.password && <span>This field is required</span>
             )}
           </div>
           <button className="btn btn-primary" type="submit" disabled={loading}>
