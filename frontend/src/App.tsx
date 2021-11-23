@@ -46,8 +46,12 @@ function Routing() {
 
 export default function App() {
   return (
+    <Provider store={store}>
     <ApolloProvider client={client}>
+        <LoadSession>
       <Routing />
+        </LoadSession>
     </ApolloProvider>
+    </Provider>
   );
 }
