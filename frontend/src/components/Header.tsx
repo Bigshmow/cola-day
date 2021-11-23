@@ -33,10 +33,13 @@ export const Header = () => {
             >
               {<FontAwesomeIcon icon={faUserCircle} size="3x" />}
             </button>
-            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <ul
+              className="dropdown-menu dropdown-menu-end"
+              aria-labelledby="dropdownMenuButton1"
+            >
               <li>
                 <span className="dropdown-item-text text-uppercase">
-                  {user.firstName}
+                  {user.firstName} - {user.organization?.name}
                 </span>
               </li>
               <li>

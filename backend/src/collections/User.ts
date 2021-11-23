@@ -1,5 +1,6 @@
 import { Document, model, Schema as _Schema } from "mongoose";
 import { hashSync, compareSync } from "bcrypt";
+import Organization from "./Organization";
 
 const Schema = new _Schema(
   {
@@ -26,6 +27,7 @@ Schema.methods = {
       firstName: this.get("firstName"),
       lastName: this.get("lastName"),
       email: this.get("email"),
+      organization: await Organization.findById(this.get("organization")),
       _id: this._id.toString(),
       created_at: (this.get("createdAt") / 1000) | 0,
     };
