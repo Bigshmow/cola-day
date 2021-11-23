@@ -1,9 +1,7 @@
 import { Express } from "express";
-import {
-  ApolloServer,
-  GraphQLUpload,
-  mergeSchemas,
-} from "apollo-server-express";
+import { ApolloServer, mergeSchemas } from "apollo-server-express";
+import { GraphQLContext } from "./interfaces";
+import { IRequest } from "../middlewares/jwt";
 
 import UserSchema from "./schemas/User";
 // import GraphQLJSON, { GraphQLJSONObject } from "graphql-type-json";
@@ -12,21 +10,12 @@ export async function createApolloServer(): Promise<ApolloServer> {
   return new ApolloServer({
     schema: mergeSchemas({
       schemas: [UserSchema],
-      resolvers: [
-        // {
-        //   JSON: GraphQLJSON,
-        //   //   JSONObject: GraphQLJSONObject,
-        //   //   GeoJSONPolygon: GeoJSONPolygon,
-        //   Upload: GraphQLUpload,
-        // },
-      ],
     }),
-    // context({ req }: { req: IRequest }): GraphQLContext {
-    //   return {
-    //     session: req.jwtSession,
-    //     data: req.jwtData,
-    //   };
-    // },
+    context({ req }: { req: IRequest }): GraphQLContext {
+      return {
+        session: req.jwtSession,
+      };
+    },
     introspection: true,
     playground: true,
   });
