@@ -26,11 +26,15 @@ export const LoginForm = () => {
     formState: { errors: formErrors },
   } = useForm<FormData>();
 
-  // TODO dispatch login to redux
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = useCallback(
+    (data) => loginUserDispatch(data),
+    [loginUserDispatch]
+  );
+
+  if (loginError) return <div>Error logging in, see console</div>;
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="d-flex flex-column card">
         <div className="card-body d-flex flex-column align-items-center">
           <div className="form-group mb-3 w-100 d-flex flex-row justify-content-between align-items-center">
@@ -61,7 +65,7 @@ export const LoginForm = () => {
               errors.password && <span>This field is required</span>
             )}
           </div>
-          <button className="btn btn-primary" type="submit">
+          <button className="btn btn-primary" type="submit" disabled={loading}>
             Sign in
           </button>
         </div>
