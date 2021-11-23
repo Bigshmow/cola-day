@@ -22,9 +22,7 @@ function RedirectHome() {
 }
 
 function Routing() {
-  //TODO: wire up login to simple redux
-  const isLoggedIn = true;
-
+  const isLoggedIn = useSelector(({ user }: any) => !!user.data);
   return (
     <>
       {isLoggedIn ? (
