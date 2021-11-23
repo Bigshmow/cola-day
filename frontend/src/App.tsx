@@ -14,7 +14,6 @@ import store from "./store";
 
 import { LoginView } from "./views/Login";
 import { NoMatch } from "./views/NoMatch";
-import { LoginView } from "./views/Login";
 import { Reservation } from "./views/Reservation";
 
 function RedirectHome() {
@@ -47,11 +46,11 @@ function Routing() {
 export default function App() {
   return (
     <Provider store={store}>
-    <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
         <LoadSession>
-      <Routing />
+          <Routing />
         </LoadSession>
-    </ApolloProvider>
+      </ApolloProvider>
     </Provider>
   );
 }
