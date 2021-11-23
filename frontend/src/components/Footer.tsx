@@ -10,7 +10,7 @@ export const Footer = () => {
         </span>
         <span className="text-nowrap">Devin Stewart</span>
       </p>
-      <p>Cola Day Technical</p>
+      <p>Consensys Technical</p>
     </footer>
   );
 };
