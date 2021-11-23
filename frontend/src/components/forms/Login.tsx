@@ -2,6 +2,8 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../../store/user";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 
 type FormData = {
   email: string;
@@ -37,30 +39,38 @@ export const LoginForm = () => {
   if (loginError) return <div>Error logging in, see console</div>;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-auto mb-auto">
       <div className="d-flex flex-column card">
-        <div className="card-body d-flex flex-column align-items-center">
-          <div className="form-group mb-3 w-100 d-flex flex-row justify-content-between align-items-center">
-            <label htmlFor="email">Email</label>
+        <div className="card-body d-flex flex-column">
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="basic-addon1">
+              <FontAwesomeIcon icon={faEnvelope} />
+            </span>
             <input
               {...register("email", { required: true })}
               name="email"
               type="email"
+              className="form-control"
               id="email"
-              className="form-control w-75 ms-auto"
-              placeholder="name@address.com"
+              placeholder="email@address.com"
+              aria-label="email@address.com"
+              aria-describedby="basic-addon1"
             />
             {formErrors.email && <span>This field is required</span>}
           </div>
-          <div className="form-group mb-3 w-100 d-flex flex-row align-items-center">
-            <label htmlFor="email">Password</label>
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="basic-addon2">
+              <FontAwesomeIcon icon={faKey} />
+            </span>
             <input
               {...register("password", { required: true, minLength: 8 })}
               name="password"
               type="password"
+              className="form-control"
               id="password"
-              className="form-control w-75 ms-auto"
-              placeholder="********"
+              placeholder="password"
+              aria-label="password"
+              aria-describedby="basic-addon2"
             />
             {formErrors.password?.type === "minLength" ? (
               <span>Password min length 8</span>
