@@ -2,6 +2,7 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { logoutUser } from "../store/user";
 
@@ -42,6 +43,17 @@ export const Header = () => {
                   {user.firstName} - {user.organization?.name}
                 </span>
               </li>
+              <li>
+                <Link to="/" className="dropdown-item">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="test" className="dropdown-item">
+                  Test
+                </Link>
+              </li>
+              <hr />
               <li>
                 <p onClick={logoutUserDispatch} className="dropdown-item">
                   Log Out
