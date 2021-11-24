@@ -21,8 +21,8 @@ export const Header = () => {
       <div className="container d-flex align-items-center">
         <a className="navbar-brand" href="/">
           <img src="/apple-touch-icon.png" alt="logo" width="50" height="50" />
-          <span className="p-3">Cola Day</span>
         </a>
+        <span className="ms-auto cola-day-text p-3">Cola Day</span>
         <div className="ms-auto d-flex justify-content-between">
           <div className="dropdown">
             <button
