@@ -2,10 +2,13 @@ import { gql, makeExecutableSchema } from "apollo-server-express";
 import GraphQLJSON, { GraphQLJSONObject } from "graphql-type-json";
 import { typeDefs as globalTypeDefs } from "./typedefs";
 import Room from "../../collections/Room";
+import { RoomObject } from "../../class/RoomObject";
 
 const typeDefs = gql`
   type Query {
     getRoomById(userId: ID): User
+    getRoomReservations(roomId: ID): [Reservation]
+    getAllRooms: [Room]
   }
 
   type Mutation {
@@ -21,17 +24,17 @@ const resolvers = {
     async getRoomById(obj, args, info) {
       return await Room.findById(args.userId);
     },
+    async getAllRooms(obj, args, info) {
+      return await Room.find({});
+    },
+    async getRoomReservations(obj, args, info) {
+      const { roomId } = args;
+      return await RoomObject.getRoomReservations(roomId);
+    },
   },
   Mutation: {
     async createRooms(obj, args, info) {
-      for (let i = 0; i < 20; i++) {
-        let roomNumber = 101 + i;
-        await Room.create({
-          number: roomNumber,
-          reservations: [],
-        });
-      }
-      return 1;
+      return RoomObject.createRooms();
     },
   },
 };
