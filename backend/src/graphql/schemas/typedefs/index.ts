@@ -4,14 +4,21 @@ export const typeDefs = gql`
   scalar JSON
   scalar JSONObject
 
+  type Organization {
+    _id: ID
+    name: String
+  }
+
   type Room {
     _id: ID
     number: Int
-    reservations: [Reservation]
   }
 
   type Reservation {
     _id: ID
+    roomId: ID
+    hours: [Int]
+    orgId: ID
   }
 
   type User {
@@ -19,6 +26,6 @@ export const typeDefs = gql`
     email: String
     firstName: String
     lastName: String
-    organization: String
+    orgId: ID
   }
 `;

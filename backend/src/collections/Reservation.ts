@@ -2,8 +2,9 @@ import { Document, model, Schema as _Schema } from "mongoose";
 
 const Schema = new _Schema(
   {
+    roomId: { type: _Schema.Types.ObjectId, ref: "Room" },
     hours: [Number],
-    organization: { type: String },
+    orgId: { type: _Schema.Types.ObjectId, ref: "Organization" },
   },
   {
     timestamps: true,
