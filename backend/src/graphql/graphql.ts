@@ -5,12 +5,13 @@ import { IRequest } from "../middlewares/jwt";
 
 import UserSchema from "./schemas/User";
 import RoomSchema from "./schemas/Room";
+import ReservationSchema from "./schemas/Reservation";
 // import GraphQLJSON, { GraphQLJSONObject } from "graphql-type-json";
 
 export async function createApolloServer(): Promise<ApolloServer> {
   return new ApolloServer({
     schema: mergeSchemas({
-      schemas: [UserSchema, RoomSchema],
+      schemas: [UserSchema, RoomSchema, ReservationSchema],
     }),
     context({ req }: { req: IRequest }): GraphQLContext {
       return {
