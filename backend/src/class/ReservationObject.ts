@@ -3,6 +3,7 @@ import { Document } from "mongoose";
 import mongoose from "mongoose";
 import Reservation from "../collections/Reservation";
 
+const maxReservation = 2;
 /*
  * @class
  * */
