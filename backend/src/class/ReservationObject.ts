@@ -65,6 +65,28 @@ export class ReservationObject {
         },
       },
     ]);
+    const flatHours = currentHours[0]?.hours?.flat() ?? [];
+    return await flatHours.some((hour: number) => hours.includes(hour));
+  }
+
+  /**
+   * Checks vertical unique, by org
+   * @param orgId
+   * @param hours
+   */
+  static async checkVertical(orgId: string, hours: number[]): Promise<Boolean> {
+    const currentHours = await Reservation.aggregate([
+      {
+        $match: { orgId: mongoose.Types.ObjectId(orgId) },
+      },
+      {
+        $group: {
+          _id: "$orgId",
+          hours: { $push: "$hours" },
+        },
+      },
+    ]);
+
     const flatHours = currentHours[0].hours.flat();
     return await flatHours.some((hour: number) => hours.includes(hour));
   }
