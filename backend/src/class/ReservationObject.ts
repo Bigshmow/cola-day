@@ -33,9 +33,10 @@ export class ReservationObject {
       .map((value, index) => {
         return start + index;
       });
-    if (this.checkHorizontal(roomId, hours)) {
-      throw new UserInputError("Duplicate hours reservations");
-      //   TODO: ifelse to check vertical
+    if (await this.checkHorizontal(roomId, hours)) {
+      throw new UserInputError("Duplicate hours in room");
+    } else if (await this.checkVertical(orgId, hours)) {
+      throw new UserInputError("Maximum rooms per hour");
     } else {
       return await Reservation.create({
         roomId,
