@@ -88,6 +88,17 @@ export class ReservationObject {
     ]);
 
     const flatHours = currentHours[0].hours.flat();
-    return await flatHours.some((hour: number) => hours.includes(hour));
+
+    const filteredFlatHours = flatHours.filter((hour: number) => {
+      return hours.indexOf(hour) !== -1;
+    });
+
+    const counts = {};
+
+    for (const num of filteredFlatHours) {
+      counts[num] = counts[num] ? counts[num] + 1 : 1;
+      if (counts[num] >= maxReservation) return true;
+    }
+    return false;
   }
 }
