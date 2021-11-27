@@ -17,7 +17,7 @@ import { NoMatch } from "./views/NoMatch";
 import { LoginLayout } from "./layout/Login";
 import { Dashboard } from "./layout/Dashboard";
 import { Testing } from "./views/Testing";
-import { Reservation } from "./views/Reservation";
+import { ReservationView } from "./views/Reservation";
 
 function RedirectHome() {
   return <Navigate to="/login" replace />;
@@ -35,7 +35,7 @@ function Routing() {
         <Router>
           <Routes>
             <Route path="/dashboard" element={<Dashboard />}>
-              <Route path="" element={<Reservation />} />
+              <Route path="" element={<ReservationView />} />
               <Route path="test" element={<Testing />} />
               <Route path="*" element={<NoMatch />} />
             </Route>
