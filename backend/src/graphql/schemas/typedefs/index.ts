@@ -16,7 +16,7 @@ export const typeDefs = gql`
 
   type RoomHours {
     number: String
-    reservations: [Reservation]
+    reservations: [String]
   }
 
   type Reservation {
