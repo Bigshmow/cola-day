@@ -1,9 +1,14 @@
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
-import { loginUser } from "../../store/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faDoorClosed } from "@fortawesome/free-solid-svg-icons";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  GET_ALL_ROOMS,
+  GET_ALL_ROOMS_RESERVATION_HOURS,
+} from "../../graphql/queries";
+import { useMemo } from "react";
+import { getHours } from "../../functional/getTimes";
+import { CREATE_RESERVATION } from "../../graphql/mutations";
 
 type FormData = {
   room: number;
@@ -12,35 +17,54 @@ type FormData = {
 };
 
 export const ReservationForm = () => {
-  const { error: loginError, loading } = useSelector((state: any) => {
-    return {
-      loading: state.user.userLoginLoading,
-      error: state.user.userLoginError,
-    };
-  });
-
-  const dispatch = useDispatch();
-
-  const loginUserDispatch = useCallback(
-    (props) => dispatch(loginUser(props)),
-    [dispatch]
-  );
-
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors: formErrors },
   } = useForm<FormData>();
 
-  const onSubmit = useCallback(
-    (data) => loginUserDispatch(data),
-    [loginUserDispatch]
+  const minEnd = watch("start");
+  const maxStart = watch("end");
+
+  const { loading, error, data } = useQuery(GET_ALL_ROOMS);
+  const roomNumbers = useMemo(() => {
+    return data?.getAllRooms;
+  }, [data]);
+
+  //   TODO: submit form with start and end
+  const [createReservation, { loading: resLoading, error: resError }] =
+    useMutation(CREATE_RESERVATION, {
+      refetchQueries: [
+        {
+          query: GET_ALL_ROOMS_RESERVATION_HOURS,
+        },
+      ],
+      onCompleted() {
+        alert(`Reservation Success!`);
+      },
+      onError(error) {
+        console.log(error.message);
+      },
+    });
+
+  const onSubmit = handleSubmit(
+    ({ room, start, end }) =>
+      createReservation({
+        variables: {
+          roomId: room,
+          start: Number(start),
+          end: Number(end),
+        },
+      })
+    // console.log(room, start, end)
   );
 
-  if (loginError) return <div>Error logging in, see console</div>;
+  if (loading) return <div>Loading rooms...</div>;
+  if (error) return <div>Error fetching rooms...{console.log(error)}</div>;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmit}>
       <div className="card d-flex flex-column align-items-center">
         <div className="card-body d-flex flex-row">
           <div className="input-group mb-3">
@@ -48,60 +72,66 @@ export const ReservationForm = () => {
               <FontAwesomeIcon icon={faDoorClosed} />
             </span>
             <select
-              {...(register("room"), { required: true })}
+              {...register("room", { required: true })}
               name="room"
               className="form-control"
-              id="room"
-              placeholder="Select Room"
-              aria-label="room"
-              aria-describedby="basic-addon2"
             >
-              <option value="female">female</option>
-              <option value="male">male</option>
-              <option value="other">other</option>
+              {roomNumbers.map(
+                (room: { number: number; _id: string }, i: number) => {
+                  return (
+                    <option key={i} value={room._id}>
+                      {room.number}
+                    </option>
+                  );
+                }
+              )}
             </select>
-            {formErrors.room && <span>This field is required</span>}
           </div>
           <div className="input-group mb-3">
             <span className="input-group-text" id="basic-addon1">
               <FontAwesomeIcon icon={faClock} />
             </span>
             <select
-              {...(register("start"), { required: true })}
-              name="room"
+              {...register("start", { required: true, max: maxStart })}
+              name="start"
               className="form-control"
-              id="room"
-              placeholder="start"
-              aria-label="room"
-              aria-describedby="basic-addon2"
             >
-              <option value="female">female</option>
-              <option value="male">male</option>
-              <option value="other">other</option>
+              {getHours().map((time: string, i: number) => {
+                return (
+                  <option key={i} value={i}>
+                    {time}
+                  </option>
+                );
+              })}
             </select>
-            {formErrors.room && <span>This field is required</span>}
           </div>
           <div className="input-group mb-3">
             <span className="input-group-text" id="basic-addon1">
               <FontAwesomeIcon icon={faClock} />
             </span>
             <select
-              {...(register("end"), { required: true })}
-              name="room"
+              {...register("end", { required: true, min: minEnd })}
+              name="end"
               className="form-control"
-              id="room"
-              placeholder="end"
-              aria-label="room"
-              aria-describedby="basic-addon2"
             >
-              <option value="female">female</option>
-              <option value="male">male</option>
-              <option value="other">other</option>
+              {getHours().map((time: string, i: number) => {
+                return (
+                  <option key={i} value={i}>
+                    {time}
+                  </option>
+                );
+              })}
             </select>
-            {formErrors.room && <span>This field is required</span>}
           </div>
         </div>
-        <button className="btn btn-primary" type="submit" disabled={loading}>
+        {formErrors.room && <span>This field is required</span>}
+        {formErrors.end && <span>Start hour must be less than end</span>}
+        {resError && <span>{resError?.message}</span>}
+        <button
+          className="btn btn-primary mb-3"
+          type="submit"
+          disabled={!formErrors ? true : resLoading}
+        >
           Submit
         </button>
       </div>
