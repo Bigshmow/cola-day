@@ -8,6 +8,7 @@ const typeDefs = gql`
   type Query {
     getRoomById(userId: ID): User
     getRoomReservations(roomId: ID): [Reservation]
+    getAllRoomsReservationHours: [RoomHours]
     getAllRooms: [Room]
   }
 
@@ -30,6 +31,9 @@ const resolvers = {
     async getRoomReservations(obj, args, info) {
       const { roomId } = args;
       return await RoomObject.getRoomReservations(roomId);
+    },
+    async getAllRoomsReservationHours(obj, args, info) {
+      return await RoomObject.getRoomHours();
     },
   },
   Mutation: {
