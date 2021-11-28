@@ -55,16 +55,16 @@ export class RoomObject {
     const roomsHours = Promise.all(
       rooms.map(async ({ _id: roomId, number }) => {
         // get hours from each res, flatten and push {roomNumber:number, hours:number[]}
-        const reservationHours = await Reservation.find({ roomId }, "hours");
-        const flatHours =
-          reservationHours
-            .map((resDoc) => {
-              return resDoc.get("hours");
-            })
-            ?.flat() ?? [];
+        const reservationDocs = await Reservation.find({ roomId });
+        const reservations = reservationDocs.map((resDoc) => {
+          return {
+            hours: resDoc.get("hours"),
+            orgId: resDoc.get("orgId"),
+          };
+        });
         return {
           number,
-          hours: flatHours,
+          reservations,
         };
       })
     );
