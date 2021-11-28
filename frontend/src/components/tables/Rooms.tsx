@@ -2,6 +2,9 @@ import { useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
 import { GET_ALL_ROOMS_RESERVATION_HOURS } from "../../graphql/queries";
+import { ReactComponent as CokeIcon } from "../../assets/svg/coke.svg";
+import { ReactComponent as PepsiIcon } from "../../assets/svg/pepsi.svg";
+import { ReactComponent as EmptyIcon } from "../../assets/svg/empty.svg";
 
 export const RoomsTable = () => {
   const { loading, error, data } = useQuery(GET_ALL_ROOMS_RESERVATION_HOURS);
@@ -28,12 +31,26 @@ const RoomsTableComponent = ({ data }: any) => {
       {
         Header: "HOUR BLOCK",
         accessor: "reservations", // accessor is the "key" in the data
-        Cell: ({ value }: any) => {
-          // TODO: Create Array length max blocks (set in constants?) with null
-          // replace each index with corresponding hour value
-          // map and return empty/red/blue for org
-          console.log(value);
-          return <>{value[0]?.orgId ?? null}</>;
+        Cell: ({ value: reservations }: any) => {
+          return (
+            <div className="d-flex justify-content-between">
+              {reservations.map((blockOwner: string | null, i: number) => {
+                if (blockOwner !== null) {
+                  return (
+                    <span key={i}>
+                      {blockOwner === "pepsi" ? <PepsiIcon /> : <CokeIcon />}
+                    </span>
+                  );
+                } else {
+                  return (
+                    <span key={i}>
+                      <EmptyIcon />
+                    </span>
+                  );
+                }
+              })}
+            </div>
+          );
         },
       },
       {
@@ -56,7 +73,7 @@ const RoomsTableComponent = ({ data }: any) => {
     );
 
   return (
-    <div className="card mt-3 mb-0">
+    <div className="card mt-3 mb-0 w-100">
       <div className="table-responsive">
         <table className="table mb-0" {...getTableProps()}>
           <thead>
@@ -74,7 +91,7 @@ const RoomsTableComponent = ({ data }: any) => {
             {rows.map((row, i) => {
               prepareRow(row);
               return (
-                <tr>
+                <tr key={i}>
                   {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()} style={{ borderTop: "0px" }}>
