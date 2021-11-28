@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import Organization from "../collections/Organization";
 import Reservation from "../collections/Reservation";
 import Room from "../collections/Room";
 
@@ -52,23 +53,30 @@ export class RoomObject {
     // get all rooms
     const rooms = await Room.find({});
     // get reservations by room id
-    const roomsHours = Promise.all(
+    return await Promise.all(
       rooms.map(async ({ _id: roomId, number }) => {
         // get hours from each res, flatten and push {roomNumber:number, hours:number[]}
         const reservationDocs = await Reservation.find({ roomId });
-        const reservations = reservationDocs.map((resDoc) => {
-          return {
-            hours: resDoc.get("hours"),
-            orgId: resDoc.get("orgId"),
-          };
-        });
+        const blockArr: number[] = Array(9).fill(null);
+        await Promise.all(
+          reservationDocs.map(async (resDoc) => {
+            const organization = await Organization.findById(
+              resDoc.get("orgId")
+            );
+            resDoc.get("hours").forEach((hour) => {
+              blockArr[hour] = organization.get("name");
+            });
+            return blockArr;
+          })
+        );
         return {
           number,
-          reservations,
+          reservations: blockArr,
         };
       })
     );
-    return roomsHours;
+    // console.log(roomsHours);
+    // return roomsHours;
   }
 
   /**
