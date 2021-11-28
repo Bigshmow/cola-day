@@ -46,6 +46,32 @@ export class RoomObject {
   }
 
   /**
+   * Returns the room number and associated reservation hours with org
+   */
+  static async getRoomHours(): Promise<any> {
+    // get all rooms
+    const rooms = await Room.find({});
+    // get reservations by room id
+    const roomsHours = Promise.all(
+      rooms.map(async ({ _id: roomId, number }) => {
+        // get hours from each res, flatten and push {roomNumber:number, hours:number[]}
+        const reservationHours = await Reservation.find({ roomId }, "hours");
+        const flatHours =
+          reservationHours
+            .map((resDoc) => {
+              return resDoc.get("hours");
+            })
+            ?.flat() ?? [];
+        return {
+          number,
+          hours: flatHours,
+        };
+      })
+    );
+    return roomsHours;
+  }
+
+  /**
    * Returns the entire User doc for this UserObject from MongoDB
    * @param roomId
    */
