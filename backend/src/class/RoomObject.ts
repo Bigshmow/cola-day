@@ -39,6 +39,7 @@ export class RoomObject {
 
   /**
    * Returns the reservations for this room
+   * @param roomId
    */
   static async getRoomReservations(roomId): Promise<[Document]> {
     return (await Reservation.find({ roomId })) as any;
@@ -46,6 +47,7 @@ export class RoomObject {
 
   /**
    * Returns the entire User doc for this UserObject from MongoDB
+   * @param roomId
    */
   getRoomStoredInfo(roomId): Promise<Document> {
     return Room.findById(roomId) as any;
