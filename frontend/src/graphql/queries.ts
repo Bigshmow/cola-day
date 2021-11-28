@@ -13,10 +13,7 @@ export const GET_ALL_ROOMS_RESERVATION_HOURS = gql`
   query getAllRoomsReservationHours {
     getAllRoomsReservationHours {
       number
-      reservations {
-        hours
-        orgId
-      }
+      reservations
     }
   }
 `;
