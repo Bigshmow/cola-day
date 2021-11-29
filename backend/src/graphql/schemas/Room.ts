@@ -6,7 +6,7 @@ import { RoomObject } from "../../class/RoomObject";
 
 const typeDefs = gql`
   type Query {
-    getRoomById(userId: ID): User
+    getRoomByUserId(userId: ID): User
     getRoomReservations(roomId: ID): [Reservation]
     getAllRoomsReservationHours: [RoomHours]
     getAllRooms: [Room]
@@ -22,7 +22,7 @@ const resolvers = {
   JSONObject: GraphQLJSONObject,
 
   Query: {
-    async getRoomById(obj, args, info) {
+    async getRoomByUserId(obj, args, info) {
       return await Room.findById(args.userId);
     },
     async getAllRooms(obj, args, info) {

@@ -49,8 +49,8 @@ export const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to="test" className="dropdown-item">
-                  Test
+                <Link to="organization" className="dropdown-item">
+                  Organization
                 </Link>
               </li>
               <hr />
