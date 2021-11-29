@@ -5,6 +5,7 @@ import { GET_ALL_ROOMS_RESERVATION_HOURS } from "../../graphql/queries";
 import { ReactComponent as CokeIcon } from "../../assets/svg/coke.svg";
 import { ReactComponent as PepsiIcon } from "../../assets/svg/pepsi.svg";
 import { ReactComponent as EmptyIcon } from "../../assets/svg/empty.svg";
+import { getTimes } from "../../functional/getTimes";
 
 export const RoomsTable = () => {
   const { loading, error, data } = useQuery(GET_ALL_ROOMS_RESERVATION_HOURS);
@@ -32,19 +33,31 @@ const RoomsTableComponent = ({ data }: any) => {
         Header: "HOUR BLOCK",
         accessor: "reservations", // accessor is the "key" in the data
         Cell: ({ value: reservations }: any) => {
+          const timesArr = getTimes();
           return (
             <div className="d-flex justify-content-between">
               {reservations.map((blockOwner: string | null, i: number) => {
                 if (blockOwner !== null) {
                   return (
                     <span key={i}>
-                      {blockOwner === "pepsi" ? <PepsiIcon /> : <CokeIcon />}
+                      {blockOwner === "pepsi" ? (
+                        <>
+                          <PepsiIcon />
+                          <span>{timesArr[i]}</span>
+                        </>
+                      ) : (
+                        <>
+                          <CokeIcon />
+                          <span>{timesArr[i]}</span>
+                        </>
+                      )}
                     </span>
                   );
                 } else {
                   return (
                     <span key={i}>
                       <EmptyIcon />
+                      <span>{timesArr[i]}</span>
                     </span>
                   );
                 }
