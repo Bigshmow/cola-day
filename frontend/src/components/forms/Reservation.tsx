@@ -47,17 +47,16 @@ export const ReservationForm = () => {
       },
     });
 
-  const onSubmit = handleSubmit(
-    ({ room, start, end }) =>
-      createReservation({
-        variables: {
-          roomId: room,
-          start: Number(start),
-          end: Number(end - 1),
-        },
-      })
+  const onSubmit = handleSubmit(({ room, start, end }) => {
+    createReservation({
+      variables: {
+        roomId: room,
+        start: Number(start),
+        end: Number(end - 1),
+      },
+    });
     // console.log(room, start, end)
-  );
+  });
 
   if (loading) return <div>Loading rooms...</div>;
   if (error) return <div>Error fetching rooms...{console.log(error)}</div>;
