@@ -28,11 +28,15 @@ export class ReservationObject {
     end: number,
     orgId: string
   ): Promise<Document> {
-    const hours: number[] = Array(end - start === 0 ? 1 : end - start)
-      .fill(0)
-      .map((value, index) => {
-        return start + index;
-      });
+    let resPeriod: number[];
+    if (end - start === 0) {
+      resPeriod = Array(1).fill(0);
+    } else {
+      resPeriod = Array(end - start + 1).fill(0);
+    }
+    const hours = resPeriod.map((value, index) => {
+      return start + index;
+    });
     if (await this.checkHorizontal(roomId, hours)) {
       throw new UserInputError("Duplicate hours in room");
     } else if (await this.checkVertical(orgId, hours)) {
@@ -98,7 +102,7 @@ export class ReservationObject {
 
     for (const num of filteredFlatHours) {
       counts[num] = counts[num] ? counts[num] + 1 : 1;
-      if (counts[num] >= maxReservation) return true;
+      if (counts[num] > maxReservation) return true;
     }
     return false;
   }
