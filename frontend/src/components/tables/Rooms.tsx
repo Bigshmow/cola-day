@@ -6,6 +6,7 @@ import { ReactComponent as CokeIcon } from "../../assets/svg/coke.svg";
 import { ReactComponent as PepsiIcon } from "../../assets/svg/pepsi.svg";
 import { ReactComponent as EmptyIcon } from "../../assets/svg/empty.svg";
 import { getTimes } from "../../functional/getTimes";
+import { IconDisplay } from "../IconDisplay";
 
 export const RoomsTable = () => {
   const { loading, error, data } = useQuery(GET_ALL_ROOMS_RESERVATION_HOURS);
@@ -41,24 +42,25 @@ const RoomsTableComponent = ({ data }: any) => {
                   return (
                     <span key={i}>
                       {blockOwner === "pepsi" ? (
-                        <>
-                          <PepsiIcon />
-                          <span>{timesArr[i]}</span>
-                        </>
+                        <IconDisplay
+                          children={<PepsiIcon />}
+                          times={timesArr[i]}
+                        />
                       ) : (
-                        <>
-                          <CokeIcon />
-                          <span>{timesArr[i]}</span>
-                        </>
+                        <IconDisplay
+                          children={<CokeIcon />}
+                          times={timesArr[i]}
+                        />
                       )}
                     </span>
                   );
                 } else {
                   return (
-                    <span key={i}>
-                      <EmptyIcon />
-                      <span>{timesArr[i]}</span>
-                    </span>
+                    <IconDisplay
+                      key={i}
+                      children={<EmptyIcon />}
+                      times={timesArr[i]}
+                    />
                   );
                 }
               })}
