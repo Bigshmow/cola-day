@@ -9,6 +9,7 @@ import { ReservationObject } from "../../class/ReservationObject";
 const typeDefs = gql`
   type Query {
     getReservationById(resId: ID): Reservation
+    getReservationsByOrgId: [RoomTime]
   }
 
   type Mutation {
@@ -23,6 +24,13 @@ const resolvers = {
   Query: {
     async getReservationById(obj, args, info) {
       return await Reservation.findById(args.resId);
+    },
+    async getReservationsByOrgId(obj, args, context: GraphQLContext, info) {
+      const user = await UserObject.createUserObject(
+        context.session.get("user")
+      );
+      const orgId = user.getUserOrganization();
+      return await ReservationObject.getOrgReservations(orgId);
     },
   },
   Mutation: {

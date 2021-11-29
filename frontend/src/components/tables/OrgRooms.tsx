@@ -20,11 +20,29 @@ const OrgRoomsTableComponent = ({ data }: any) => {
     () => [
       {
         Header: "ROOM NUMBER",
-        accessor: "number", // accessor is the "key" in the data
+        accessor: "number",
       },
       {
-        Header: "Reservation",
-        accessor: "reservation", // accessor is the "key" in the data
+        Header: "Reservation Start",
+        accessor: "reservationStart",
+      },
+      {
+        Header: "Reservation End",
+        accessor: "reservationEnd",
+      },
+      {
+        Header: "",
+        accessor: "edit",
+        Cell: () => {
+          return <button className="btn btn-info">Edit</button>;
+        },
+      },
+      {
+        Header: "",
+        accessor: "delete",
+        Cell: () => {
+          return <button className="btn btn-warning">Delete</button>;
+        },
       },
       {
         accessor: "id",
@@ -47,13 +65,16 @@ const OrgRoomsTableComponent = ({ data }: any) => {
 
   return (
     <div className="card mt-3 mb-0 w-100">
+      <div className="card-header text-center">
+        <h1>Organization Reservations</h1>
+      </div>
       <div className="table-responsive">
         <table className="table mb-0" {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                     {column.render("Header")}
                   </th>
                 ))}
