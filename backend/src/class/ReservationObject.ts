@@ -2,6 +2,7 @@ import { UserInputError } from "apollo-server-express";
 import { Document } from "mongoose";
 import mongoose from "mongoose";
 import Reservation from "../collections/Reservation";
+import Room from "../collections/Room";
 
 const maxReservation = process.env.maxReservation || 6;
 
@@ -17,16 +18,53 @@ export class ReservationObject {
   }
 
   /**
+   * Return reservations (with times) by orgId
+   * @param orgId
+   */
+  static async getOrgReservations(orgId: string) {
+    // get reservations by organization
+    const reservations = await Reservation.find({ orgId });
+    const roomTimes = await Promise.all(
+      reservations.map(async (resDoc) => {
+        const room = await Room.findById(resDoc.get("roomId"));
+        return {
+          number: room.get("number"),
+          resId: resDoc.get("_id"),
+          reservationStart: resDoc.get("startHour"),
+          reservationEnd: resDoc.get("endHour"),
+        };
+      })
+    );
+    // for each reservation:
+    // pull out roomId
+    // get room number from doc and set to number
+    // pull out each resId
+    // pull min and max int
+    // set to reservationStart/End respectively
+    /**
+     * return [{number: String
+    resId: ID
+    reservationStart: Int
+    reservationEnd: Int}]
+     */
+    return roomTimes;
+  }
+
+  /**
    * Creates a new Reservation for a given room and orgId
    * @param room
    * @param start
+   * @param startHour
    * @param end
+   * @param endHour
    * @param orgId
    */
   static async createReservation(
     roomId: string,
     start: number,
+    startHour: string,
     end: number,
+    endHour: string,
     orgId: string
   ): Promise<Document> {
     if (start === end + 1) {
@@ -50,6 +88,8 @@ export class ReservationObject {
         roomId,
         hours,
         orgId,
+        startHour,
+        endHour,
       });
     }
   }

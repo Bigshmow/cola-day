@@ -6,7 +6,7 @@ import {
   GET_ALL_ROOMS,
   GET_ALL_ROOMS_RESERVATION_HOURS,
 } from "../../graphql/queries";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { getHours } from "../../functional/getTimes";
 import { CREATE_RESERVATION } from "../../graphql/mutations";
 
@@ -53,10 +53,14 @@ export const ReservationForm = () => {
         roomId: room,
         start: Number(start),
         end: Number(end - 1),
+        startHour: hours[start],
+        endHour: hours[end],
       },
     });
     // console.log(room, start, end)
   });
+
+  const [hours] = useState(getHours());
 
   if (loading) return <div>Loading rooms...</div>;
   if (error) return <div>Error fetching rooms...{console.log(error)}</div>;
@@ -94,7 +98,7 @@ export const ReservationForm = () => {
               name="start"
               className="form-control"
             >
-              {getHours().map((time: string, i: number) => {
+              {hours.map((time: string, i: number) => {
                 return (
                   <option key={i} value={i}>
                     {time}
@@ -112,7 +116,7 @@ export const ReservationForm = () => {
               name="end"
               className="form-control"
             >
-              {getHours().map((time: string, i: number) => {
+              {hours.map((time: string, i: number) => {
                 return (
                   <option key={i} value={i}>
                     {time}

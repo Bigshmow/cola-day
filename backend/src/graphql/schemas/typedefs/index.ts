@@ -17,8 +17,8 @@ export const typeDefs = gql`
   type RoomTime {
     number: String
     resId: ID
-    reservationStart: Int
-    reservationEnd: Int
+    reservationStart: String
+    reservationEnd: String
   }
 
   type RoomHours {
@@ -30,6 +30,8 @@ export const typeDefs = gql`
     _id: ID
     roomId: ID
     hours: [Int]
+    startHour: String
+    endHour: String
     orgId: ID
   }
 

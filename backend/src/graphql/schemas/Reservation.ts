@@ -13,7 +13,13 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createReservation(roomId: ID, start: Int, end: Int): Reservation
+    createReservation(
+      roomId: ID
+      start: Int
+      end: Int
+      startHour: String
+      endHour: String
+    ): Reservation
   }
 `;
 
@@ -35,7 +41,7 @@ const resolvers = {
   },
   Mutation: {
     async createReservation(obj, args, context: GraphQLContext, info) {
-      const { roomId, start, end } = args;
+      const { roomId, start, end, startHour, endHour } = args;
       const user = await UserObject.createUserObject(
         context.session.get("user")
       );
@@ -43,7 +49,9 @@ const resolvers = {
       return await ReservationObject.createReservation(
         roomId,
         start,
+        startHour,
         end,
+        endHour,
         orgId
       );
     },
