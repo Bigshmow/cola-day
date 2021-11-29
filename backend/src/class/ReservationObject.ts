@@ -3,7 +3,8 @@ import { Document } from "mongoose";
 import mongoose from "mongoose";
 import Reservation from "../collections/Reservation";
 
-const maxReservation = 4;
+const maxReservation = process.env.maxReservation || 6;
+
 /*
  * @class
  * */
@@ -95,7 +96,11 @@ export class ReservationObject {
       },
     ]);
 
-    const flatHours = currentHours[0].hours.flat();
+    const flatHours = currentHours[0]?.hours?.flat() ?? [];
+    // default check
+    if (flatHours.length === 0) {
+      return false;
+    }
 
     const filteredFlatHours = flatHours.filter((hour: number) => {
       return hours.indexOf(hour) !== -1;
@@ -105,7 +110,7 @@ export class ReservationObject {
 
     for (const num of filteredFlatHours) {
       counts[num] = counts[num] ? counts[num] + 1 : 1;
-      if (counts[num] > maxReservation) return true;
+      if (counts[num] >= maxReservation) return true;
     }
     return false;
   }
