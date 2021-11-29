@@ -28,7 +28,7 @@ export class ReservationObject {
     end: number,
     orgId: string
   ): Promise<Document> {
-    const hours: number[] = Array(end - start + 1)
+    const hours: number[] = Array(end - start === 0 ? 1 : end - start)
       .fill(0)
       .map((value, index) => {
         return start + index;

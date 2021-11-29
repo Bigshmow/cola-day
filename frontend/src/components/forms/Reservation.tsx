@@ -24,8 +24,7 @@ export const ReservationForm = () => {
     formState: { errors: formErrors },
   } = useForm<FormData>();
 
-  const minEnd = watch("start");
-  const maxStart = watch("end");
+  const end = watch("end");
 
   const { loading, error, data } = useQuery(GET_ALL_ROOMS);
   const roomNumbers = useMemo(() => {
@@ -54,7 +53,7 @@ export const ReservationForm = () => {
         variables: {
           roomId: room,
           start: Number(start),
-          end: Number(end),
+          end: Number(end - 1),
         },
       })
     // console.log(room, start, end)
@@ -92,7 +91,7 @@ export const ReservationForm = () => {
               <FontAwesomeIcon icon={faClock} />
             </span>
             <select
-              {...register("start", { required: true, max: maxStart })}
+              {...register("start", { required: true, max: end - 1 })}
               name="start"
               className="form-control"
             >
@@ -110,7 +109,7 @@ export const ReservationForm = () => {
               <FontAwesomeIcon icon={faClock} />
             </span>
             <select
-              {...register("end", { required: true, min: minEnd })}
+              {...register("end", { required: true })}
               name="end"
               className="form-control"
             >
@@ -125,7 +124,7 @@ export const ReservationForm = () => {
           </div>
         </div>
         {formErrors.room && <span>This field is required</span>}
-        {formErrors.end && <span>Start hour must be less than end</span>}
+        {formErrors.start && <span>Start hour must be less than end</span>}
         {resError && <span>{resError?.message}</span>}
         <button
           className="btn btn-primary mb-3"

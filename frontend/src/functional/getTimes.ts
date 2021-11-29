@@ -1,4 +1,4 @@
-export function getTimes(blocks: number = 9, start: number = 8) {
+export function getTimes(blocks: number = 10, start: number = 8) {
   const timesArr: string[] = [];
   for (let i = 0; i < blocks; i++) {
     let startHour =
@@ -18,7 +18,7 @@ export function getTimes(blocks: number = 9, start: number = 8) {
   return timesArr;
 }
 
-export function getHours(blocks: number = 9, start: number = 8) {
+export function getHours(blocks: number = 10, start: number = 8) {
   const timesArr: string[] = [];
   for (let i = 0; i < blocks; i++) {
     let startHour =
