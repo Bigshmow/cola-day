@@ -28,6 +28,9 @@ export class ReservationObject {
     end: number,
     orgId: string
   ): Promise<Document> {
+    if (start === end + 1) {
+      throw new UserInputError("Start and end hour cannot be equal");
+    }
     let resPeriod: number[];
     if (end - start === 0) {
       resPeriod = Array(1).fill(0);
