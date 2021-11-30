@@ -19,3 +19,10 @@ export const CREATE_RESERVATION = gql`
     }
   }
 `;
+
+//
+export const DELETE_RESERVATION = gql`
+  mutation deleteReservation($resId: ID) {
+    deleteReservation(resId: $resId)
+  }
+`;

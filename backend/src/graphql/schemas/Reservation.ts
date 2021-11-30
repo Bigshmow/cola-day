@@ -20,6 +20,15 @@ const typeDefs = gql`
       startHour: String
       endHour: String
     ): Reservation
+    deleteReservation(resId: ID): JSONObject
+    editReservation(
+      redId: ID
+      roomId: ID
+      start: Int
+      end: Int
+      startHour: String
+      endHour: String
+    ): JSONObject
   }
 `;
 
@@ -54,6 +63,10 @@ const resolvers = {
         endHour,
         orgId
       );
+    },
+    async deleteReservation(obj, args, info) {
+      const { resId } = args;
+      return Reservation.findByIdAndDelete(resId);
     },
   },
 };

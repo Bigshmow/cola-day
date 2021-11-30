@@ -17,3 +17,14 @@ export const GET_ALL_ROOMS_RESERVATION_HOURS = gql`
     }
   }
 `;
+
+export const GET_RESERVATIONS_BY_ORG_ID = gql`
+  query getReservationsByOrgId {
+    getReservationsByOrgId {
+      number
+      reservationStart
+      reservationEnd
+      resId
+    }
+  }
+`;

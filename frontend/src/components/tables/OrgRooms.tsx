@@ -1,12 +1,13 @@
 import { useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
-import { GET_ALL_ROOMS_RESERVATION_HOURS } from "../../graphql/queries";
+import { GET_RESERVATIONS_BY_ORG_ID } from "../../graphql/queries";
+import { DeleteButton } from "../buttons/DeleteButton";
 
 export const OrgRoomsTable = () => {
-  const { loading, error, data } = useQuery(GET_ALL_ROOMS_RESERVATION_HOURS);
+  const { loading, error, data } = useQuery(GET_RESERVATIONS_BY_ORG_ID);
   const roomsHours = useMemo(() => {
-    return data?.getAllRoomsReservationHours;
+    return data?.getReservationsByOrgId;
   }, [data]);
 
   if (loading) return <>Loading...</>;
@@ -32,16 +33,17 @@ const OrgRoomsTableComponent = ({ data }: any) => {
       },
       {
         Header: "",
-        accessor: "edit",
-        Cell: () => {
+        accessor: "resId",
+        Cell: ({ value: resId }: any) => {
           return <button className="btn btn-info">Edit</button>;
         },
       },
       {
         Header: "",
-        accessor: "delete",
-        Cell: () => {
-          return <button className="btn btn-warning">Delete</button>;
+        accessor: "resId",
+        id: "deleteBtn",
+        Cell: ({ value: resId }: any) => {
+          return <DeleteButton resId={resId} />;
         },
       },
       {
@@ -58,6 +60,11 @@ const OrgRoomsTableComponent = ({ data }: any) => {
         data,
         initialState: {
           hiddenColumns: ["id"],
+          sortBy: [
+            {
+              id: "number",
+            },
+          ],
         },
       },
       useSortBy
