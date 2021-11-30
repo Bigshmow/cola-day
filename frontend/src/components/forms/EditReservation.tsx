@@ -78,8 +78,8 @@ export const EditReservationForm = () => {
       <div className="card d-flex flex-column align-items-center">
         <div className="card-body d-flex flex-column">
           <div className="d-flex flex-row">
-            <div className="p-2 input-group mb-3 d-flex flex-column">
-              <div>Previous Room</div>
+            <div className=" input-group mb-3 d-flex flex-column">
+              <div className="text-center">Current Room</div>
               <div className="text-center">{room}</div>
               <div className="d-flex flex-row">
                 <span className="input-group-text" id="basic-addon1">
@@ -102,8 +102,8 @@ export const EditReservationForm = () => {
                 </select>
               </div>
             </div>
-            <div className="p-2 input-group mb-3 d-flex flex-column">
-              <div>Previous Start</div>
+            <div className=" input-group mb-3 d-flex flex-column">
+              <div className="text-center">Start</div>
               <div className="text-center">{resStart}</div>
               <div className="d-flex flex-row">
                 <span className="input-group-text" id="basic-addon1">
@@ -124,8 +124,8 @@ export const EditReservationForm = () => {
                 </select>
               </div>
             </div>
-            <div className="p-2 input-group mb-3 d-flex flex-column">
-              <div>Previous End</div>
+            <div className=" input-group mb-3 d-flex flex-column">
+              <div className="text-center">End</div>
               <div className="text-center">{resEnd}</div>
               <div className="d-flex flex-row">
                 <span className="input-group-text" id="basic-addon1">
