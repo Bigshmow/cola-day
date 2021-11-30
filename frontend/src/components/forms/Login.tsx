@@ -36,7 +36,17 @@ export const LoginForm = () => {
     [loginUserDispatch]
   );
 
-  if (loginError) console.log(loginError);
+  let errorMessage: string = "";
+
+  if (loginError) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(
+      loginError && loginError.response.data,
+      "text/html"
+    );
+    const pre = doc.getElementsByTagName("pre");
+    errorMessage = pre[0].firstChild?.textContent ?? "";
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-auto mb-auto">
@@ -78,7 +88,7 @@ export const LoginForm = () => {
               formErrors.password && <span>This field is required</span>
             )}
           </div>
-          {loginError && <span>{loginError.message}</span>}
+          {loginError && <span className="text-center">{errorMessage}</span>}
           <button className="btn btn-primary" type="submit" disabled={loading}>
             Sign in
           </button>
