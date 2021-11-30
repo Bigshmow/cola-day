@@ -22,7 +22,7 @@ const typeDefs = gql`
     ): Reservation
     deleteReservation(resId: ID): JSONObject
     editReservation(
-      redId: ID
+      resId: ID
       roomId: ID
       start: Int
       end: Int
@@ -67,6 +67,19 @@ const resolvers = {
     async deleteReservation(obj, args, info) {
       const { resId } = args;
       return Reservation.findByIdAndDelete(resId);
+    },
+    async editReservation(obj, args, info) {
+      const { resId, roomId, start, startHour, end, endHour } = args;
+      const reservationObject = await ReservationObject.createReservationObject(
+        resId
+      );
+      return reservationObject.editReservation(
+        roomId,
+        start,
+        startHour,
+        end,
+        endHour
+      );
     },
   },
 };

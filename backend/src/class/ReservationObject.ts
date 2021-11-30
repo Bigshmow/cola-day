@@ -18,6 +18,26 @@ export class ReservationObject {
   }
 
   /**
+   * Creates a new ReservationObject from the ID of a previously stored Reservation in MongoDB
+   * @param resId
+   */
+  static async createReservationObject(
+    resId: string
+  ): Promise<ReservationObject> {
+    const reservationObject = new ReservationObject(resId);
+    reservationObject.reservation =
+      await reservationObject.getReservationStoredInfo(resId);
+    return reservationObject;
+  }
+
+  /**
+   * Returns the entire Reservation doc for this ReservationObject from MongoDB
+   */
+  getReservationStoredInfo(resId): Promise<Document> {
+    return Reservation.findById(resId) as any;
+  }
+
+  /**
    * Return reservations (with times) by orgId
    * @param orgId
    */
@@ -95,6 +115,60 @@ export class ReservationObject {
   }
 
   /**
+   * Edit a reservation
+   * @param roomId
+   * @param start
+   * @param startHour
+   * @param end
+   * @param endHour
+   */
+  async editReservation(
+    roomId: string,
+    start: number,
+    startHour: string,
+    end: number,
+    endHour: string
+  ) {
+    const orgId = this.reservation.get("orgId");
+    const oldResHours = this.reservation.get("hours");
+    if (start === end + 1) {
+      throw new UserInputError("Start and end hour cannot be equal");
+    }
+    let resPeriod: number[];
+    if (end - start === 0) {
+      resPeriod = Array(1).fill(0);
+    } else {
+      resPeriod = Array(end - start + 1).fill(0);
+    }
+    const hours = resPeriod.map((value, index) => {
+      return start + index;
+    });
+    if (
+      roomId === this.reservation.get("roomId").toString()
+        ? await ReservationObject.checkHorizontalEdit(
+            roomId,
+            hours,
+            oldResHours
+          )
+        : await ReservationObject.checkHorizontal(roomId, hours)
+    ) {
+      throw new UserInputError("Duplicate hours in room");
+    } else if (await ReservationObject.checkVertical(orgId, hours)) {
+      throw new UserInputError("Maximum rooms per hour");
+    } else {
+      return await this.reservation
+        .set({
+          roomId,
+          hours,
+          orgId,
+          startHour,
+          endHour,
+        })
+        .save();
+    }
+  }
+
+  /**
    * Checks horizontal unique, by room
    * @param roomId
    * @param hours
@@ -115,6 +189,35 @@ export class ReservationObject {
       },
     ]);
     const flatHours = currentHours[0]?.hours?.flat() ?? [];
+    return await flatHours.some((hour: number) => hours.includes(hour));
+  }
+
+  /**
+   * Checks horizontal unique, by room
+   * @param roomId
+   * @param hours
+   * @param oldResHours
+   */
+  static async checkHorizontalEdit(
+    roomId: string,
+    hours: number[],
+    oldResHours: [number]
+  ): Promise<Boolean> {
+    const currentHours = await Reservation.aggregate([
+      {
+        $match: { roomId: mongoose.Types.ObjectId(roomId) },
+      },
+      {
+        $group: {
+          _id: "$roomId",
+          hours: { $push: "$hours" },
+        },
+      },
+    ]);
+    const flatHours =
+      currentHours[0]?.hours
+        ?.flat()
+        .filter((hour: number) => !oldResHours.includes(hour)) ?? [];
     return await flatHours.some((hour: number) => hours.includes(hour));
   }
 

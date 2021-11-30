@@ -18,6 +18,7 @@ import { LoginLayout } from "./layout/Login";
 import { Dashboard } from "./layout/Dashboard";
 import { OrgReservationView } from "./views/reservations/Organization";
 import { GlobalReservationView } from "./views/reservations/Global";
+import { EditReservationView } from "./views/reservations/Edit";
 
 function RedirectHome() {
   return <Navigate to="/login" replace />;
@@ -37,6 +38,10 @@ function Routing() {
             <Route path="/dashboard" element={<Dashboard />}>
               <Route path="" element={<GlobalReservationView />} />
               <Route path="organization" element={<OrgReservationView />} />
+              <Route
+                path="edit/reservation/:resId/:room/:resStart/:resEnd"
+                element={<EditReservationView />}
+              />
               <Route path="*" element={<NoMatch />} />
             </Route>
             <Route path="*" element={<RedirectReservations />} />

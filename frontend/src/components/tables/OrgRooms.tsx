@@ -2,7 +2,8 @@ import { useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
 import { GET_RESERVATIONS_BY_ORG_ID } from "../../graphql/queries";
-import { DeleteButton } from "../buttons/DeleteButton";
+import { DeleteButton } from "../buttons/Delete";
+import { EditButton } from "../buttons/Edit";
 
 export const OrgRoomsTable = () => {
   const { loading, error, data } = useQuery(GET_RESERVATIONS_BY_ORG_ID);
@@ -34,14 +35,23 @@ const OrgRoomsTableComponent = ({ data }: any) => {
       {
         Header: "",
         accessor: "resId",
-        Cell: ({ value: resId }: any) => {
-          return <button className="btn btn-info">Edit</button>;
+        disableSortBy: true,
+        Cell: ({ value: resId, row }: any) => {
+          return (
+            <EditButton
+              resId={resId}
+              room={row.original.number}
+              resStart={row.original.reservationStart}
+              resEnd={row.original.reservationEnd}
+            />
+          );
         },
       },
       {
         Header: "",
         accessor: "resId",
         id: "deleteBtn",
+        disableSortBy: true,
         Cell: ({ value: resId }: any) => {
           return <DeleteButton resId={resId} />;
         },
