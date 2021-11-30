@@ -68,6 +68,9 @@ export const ReservationForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <div className="card d-flex flex-column align-items-center">
+        <div className="card-header text-center w-100">
+          <h2>Make a reservation</h2>
+        </div>
         <div className="card-body d-flex flex-row">
           <div className="input-group mb-3">
             <span className="input-group-text" id="basic-addon1">
