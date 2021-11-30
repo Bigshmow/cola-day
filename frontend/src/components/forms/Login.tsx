@@ -36,7 +36,7 @@ export const LoginForm = () => {
     [loginUserDispatch]
   );
 
-  if (loginError) return <div>Error logging in, see console</div>;
+  if (loginError) console.log(loginError);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-auto mb-auto">
@@ -78,6 +78,7 @@ export const LoginForm = () => {
               formErrors.password && <span>This field is required</span>
             )}
           </div>
+          {loginError && <span>{loginError.message}</span>}
           <button className="btn btn-primary" type="submit" disabled={loading}>
             Sign in
           </button>

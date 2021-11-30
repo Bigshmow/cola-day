@@ -8,15 +8,12 @@ export default class CustomError extends Error {
 
 export const Auth = {
   userNotExists() {
-    return new CustomError("User doesn't exits", 1);
+    return new CustomError("User doesn't exist", 1);
   },
   passwordNotMatch() {
     return new CustomError("Password is not valid", 2);
   },
   mailInUsage() {
-    return new CustomError("Mail in usage", 3);
-  },
-  tempPassNotMatch() {
-    return new CustomError("Temporary password is not valid", 4);
+    return new CustomError("Mail in us", 3);
   },
 };
