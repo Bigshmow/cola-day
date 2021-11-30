@@ -19,6 +19,7 @@ import { Dashboard } from "./layout/Dashboard";
 import { OrgReservationView } from "./views/reservations/Organization";
 import { GlobalReservationView } from "./views/reservations/Global";
 import { EditReservationView } from "./views/reservations/Edit";
+import { Footer } from "./components/Footer";
 
 function RedirectHome() {
   return <Navigate to="/login" replace />;
@@ -46,6 +47,7 @@ function Routing() {
             </Route>
             <Route path="*" element={<RedirectReservations />} />
           </Routes>
+          <Footer />
         </Router>
       ) : (
         <Router>
@@ -55,6 +57,7 @@ function Routing() {
             </Route>
             <Route path="*" element={<RedirectHome />} />
           </Routes>
+          <Footer />
         </Router>
       )}
     </>
