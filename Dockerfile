@@ -27,7 +27,7 @@ ADD backend/package.json .
 RUN npm i
 ADD backend/src src
 ADD backend/tsconfig.json .
-RUN tsc -p . --inlineSources --inlineSourceMap --sourceMap false
+RUN tsc -p .
 
 ## Release image
 
